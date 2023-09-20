@@ -1,0 +1,1015 @@
+
+CREATE TABLE com_fabboo_Car (
+  ID NVARCHAR(36),
+  name NVARCHAR(5000)
+);
+
+CREATE TABLE com_fabboo_Emails (
+  email_01 NCLOB,
+  email_02 NCLOB,
+  email_03 NCLOB
+);
+
+CREATE TABLE com_fabboo_Order (
+  ID NVARCHAR(36) NOT NULL,
+  Date DATE_TEXT,
+  Customer NVARCHAR(5000),
+  PRIMARY KEY(ID)
+);
+
+CREATE TABLE com_fabboo_OrderItem (
+  ID NVARCHAR(36) NOT NULL,
+  Order_ID NVARCHAR(36),
+  Product_ID NVARCHAR(36),
+  PRIMARY KEY(ID)
+);
+
+CREATE TABLE com_fabboo_Products (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP_TEXT,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP_TEXT,
+  modifiedBy NVARCHAR(255),
+  Name NVARCHAR(5000) NOT NULL,
+  Description NVARCHAR(5000),
+  ImageUrl NVARCHAR(5000),
+  ReleaseDate TIMESTAMP_TEXT DEFAULT CURRENT_TIMESTAMP,
+  DiscontinuedDate TIMESTAMP_TEXT,
+  Price DECIMAL(16, 2),
+  Height DECIMAL(16, 2),
+  Width DECIMAL(16, 2),
+  Depth DECIMAL(16, 2),
+  Quantity DECIMAL(16, 2),
+  Supplier_ID NVARCHAR(36),
+  UnitOfMeasure_ID NVARCHAR(2),
+  Currency_ID NVARCHAR(3),
+  DimensionUnit_ID NVARCHAR(2),
+  Category_ID NVARCHAR(1),
+  PriceCondition NVARCHAR(2),
+  PriceDetermination NVARCHAR(3),
+  PRIMARY KEY(ID)
+);
+
+CREATE TABLE com_fabboo_Suppliers (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP_TEXT,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP_TEXT,
+  modifiedBy NVARCHAR(255),
+  Name NVARCHAR(5000) NOT NULL,
+  Adress_Street NVARCHAR(5000),
+  Adress_City NVARCHAR(5000),
+  Adress_State NVARCHAR(2),
+  Adress_PostalCode NVARCHAR(5),
+  Adress_Country NVARCHAR(3),
+  Email NVARCHAR(5000),
+  Phone NVARCHAR(5000),
+  Fax NVARCHAR(5000),
+  PRIMARY KEY(ID)
+);
+
+CREATE TABLE com_fabboo_Categories (
+  ID NVARCHAR(1) NOT NULL,
+  Name NVARCHAR(5000),
+  PRIMARY KEY(ID)
+);
+
+CREATE TABLE com_fabboo_StockAvailability (
+  ID INTEGER NOT NULL,
+  Description NVARCHAR(5000),
+  PRIMARY KEY(ID)
+);
+
+CREATE TABLE com_fabboo_Currencies (
+  ID NVARCHAR(3) NOT NULL,
+  Description NVARCHAR(5000),
+  PRIMARY KEY(ID)
+);
+
+CREATE TABLE com_fabboo_UnitOfMeasures (
+  ID NVARCHAR(2) NOT NULL,
+  Description NVARCHAR(5000),
+  PRIMARY KEY(ID)
+);
+
+CREATE TABLE com_fabboo_DimensionUnit (
+  ID NVARCHAR(2) NOT NULL,
+  Description NVARCHAR(5000),
+  PRIMARY KEY(ID)
+);
+
+CREATE TABLE com_fabboo_Months (
+  ID NVARCHAR(2) NOT NULL,
+  Description NVARCHAR(5000),
+  ShortDescription NVARCHAR(3),
+  PRIMARY KEY(ID)
+);
+
+CREATE TABLE com_fabboo_ProductReview (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP_TEXT,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP_TEXT,
+  modifiedBy NVARCHAR(255),
+  Name NVARCHAR(5000),
+  Rating INTEGER,
+  Comment NVARCHAR(5000),
+  Product_ID NVARCHAR(36),
+  PRIMARY KEY(ID)
+);
+
+CREATE TABLE com_fabboo_SalesData (
+  ID NVARCHAR(36) NOT NULL,
+  createdAt TIMESTAMP_TEXT,
+  createdBy NVARCHAR(255),
+  modifiedAt TIMESTAMP_TEXT,
+  modifiedBy NVARCHAR(255),
+  DeliveryDate TIMESTAMP_TEXT,
+  Revenue DECIMAL(16, 2),
+  Product_ID NVARCHAR(36),
+  Currency_ID NVARCHAR(3),
+  DeliveryMonth_ID NVARCHAR(2),
+  PRIMARY KEY(ID)
+);
+
+CREATE TABLE com_fabboo_Course (
+  ID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+);
+
+CREATE TABLE com_fabboo_Student (
+  ID NVARCHAR(36) NOT NULL,
+  PRIMARY KEY(ID)
+);
+
+CREATE TABLE com_fabboo_StudentCourse (
+  ID NVARCHAR(36) NOT NULL,
+  Course_ID NVARCHAR(36),
+  Student_ID NVARCHAR(36),
+  PRIMARY KEY(ID)
+);
+
+CREATE TABLE com_fabboo_Products_texts (
+  locale NVARCHAR(14) NOT NULL,
+  ID NVARCHAR(36) NOT NULL,
+  Name NVARCHAR(5000) NOT NULL,
+  Description NVARCHAR(5000),
+  PRIMARY KEY(locale, ID)
+);
+
+CREATE TABLE com_fabboo_Categories_texts (
+  locale NVARCHAR(14) NOT NULL,
+  ID NVARCHAR(1) NOT NULL,
+  Name NVARCHAR(5000),
+  PRIMARY KEY(locale, ID)
+);
+
+CREATE TABLE com_fabboo_StockAvailability_texts (
+  locale NVARCHAR(14) NOT NULL,
+  ID INTEGER NOT NULL,
+  Description NVARCHAR(5000),
+  PRIMARY KEY(locale, ID)
+);
+
+CREATE TABLE com_fabboo_Currencies_texts (
+  locale NVARCHAR(14) NOT NULL,
+  ID NVARCHAR(3) NOT NULL,
+  Description NVARCHAR(5000),
+  PRIMARY KEY(locale, ID)
+);
+
+CREATE TABLE com_fabboo_UnitOfMeasures_texts (
+  locale NVARCHAR(14) NOT NULL,
+  ID NVARCHAR(2) NOT NULL,
+  Description NVARCHAR(5000),
+  PRIMARY KEY(locale, ID)
+);
+
+CREATE TABLE com_fabboo_DimensionUnit_texts (
+  locale NVARCHAR(14) NOT NULL,
+  ID NVARCHAR(2) NOT NULL,
+  Description NVARCHAR(5000),
+  PRIMARY KEY(locale, ID)
+);
+
+CREATE TABLE com_fabboo_Months_texts (
+  locale NVARCHAR(14) NOT NULL,
+  ID NVARCHAR(2) NOT NULL,
+  Description NVARCHAR(5000),
+  ShortDescription NVARCHAR(3),
+  PRIMARY KEY(locale, ID)
+);
+
+CREATE TABLE com_fabboo_Suppliers_texts (
+  locale NVARCHAR(14) NOT NULL,
+  ID NVARCHAR(36) NOT NULL,
+  Name NVARCHAR(5000) NOT NULL,
+  PRIMARY KEY(locale, ID)
+);
+
+CREATE VIEW com_fabboo_SelProducts AS SELECT
+  Products_0.ID,
+  Products_0.createdAt,
+  Products_0.createdBy,
+  Products_0.modifiedAt,
+  Products_0.modifiedBy,
+  Products_0.Name,
+  Products_0.Description,
+  Products_0.ImageUrl,
+  Products_0.ReleaseDate,
+  Products_0.DiscontinuedDate,
+  Products_0.Price,
+  Products_0.Height,
+  Products_0.Width,
+  Products_0.Depth,
+  Products_0.Quantity,
+  Products_0.Supplier_ID,
+  Products_0.UnitOfMeasure_ID,
+  Products_0.Currency_ID,
+  Products_0.DimensionUnit_ID,
+  Products_0.Category_ID,
+  Products_0.PriceCondition,
+  Products_0.PriceDetermination
+FROM com_fabboo_Products AS Products_0;
+
+CREATE VIEW com_fabboo_SelProducts1 AS SELECT
+  Products_0.ID,
+  Products_0.createdAt,
+  Products_0.createdBy,
+  Products_0.modifiedAt,
+  Products_0.modifiedBy,
+  Products_0.Name,
+  Products_0.Description,
+  Products_0.ImageUrl,
+  Products_0.ReleaseDate,
+  Products_0.DiscontinuedDate,
+  Products_0.Price,
+  Products_0.Height,
+  Products_0.Width,
+  Products_0.Depth,
+  Products_0.Quantity,
+  Products_0.Supplier_ID,
+  Products_0.UnitOfMeasure_ID,
+  Products_0.Currency_ID,
+  Products_0.DimensionUnit_ID,
+  Products_0.Category_ID,
+  Products_0.PriceCondition,
+  Products_0.PriceDetermination
+FROM com_fabboo_Products AS Products_0;
+
+CREATE VIEW com_fabboo_SelPoducts2 AS SELECT
+  Products_0.Name,
+  Products_0.Price,
+  Products_0.Quantity
+FROM com_fabboo_Products AS Products_0;
+
+CREATE VIEW com_fabboo_SelProducts3 AS SELECT
+  ProductReview_1.Rating,
+  Products_0.Name,
+  sum(Products_0.Price) AS TotalPrice
+FROM (com_fabboo_Products AS Products_0 LEFT JOIN com_fabboo_ProductReview AS ProductReview_1 ON Products_0.Name = ProductReview_1.Name)
+GROUP BY ProductReview_1.Rating, Products_0.Name
+ORDER BY Rating;
+
+CREATE VIEW com_fabboo_ProjProducts AS SELECT
+  Products_0.ID,
+  Products_0.createdAt,
+  Products_0.createdBy,
+  Products_0.modifiedAt,
+  Products_0.modifiedBy,
+  Products_0.Name,
+  Products_0.Description,
+  Products_0.ImageUrl,
+  Products_0.ReleaseDate,
+  Products_0.DiscontinuedDate,
+  Products_0.Price,
+  Products_0.Height,
+  Products_0.Width,
+  Products_0.Depth,
+  Products_0.Quantity,
+  Products_0.Supplier_ID,
+  Products_0.UnitOfMeasure_ID,
+  Products_0.Currency_ID,
+  Products_0.DimensionUnit_ID,
+  Products_0.Category_ID,
+  Products_0.PriceCondition,
+  Products_0.PriceDetermination
+FROM com_fabboo_Products AS Products_0;
+
+CREATE VIEW com_fabboo_ProjProducts2 AS SELECT
+  Products_0.ID,
+  Products_0.createdAt,
+  Products_0.createdBy,
+  Products_0.modifiedAt,
+  Products_0.modifiedBy,
+  Products_0.Name,
+  Products_0.Description,
+  Products_0.ImageUrl,
+  Products_0.ReleaseDate,
+  Products_0.DiscontinuedDate,
+  Products_0.Price,
+  Products_0.Height,
+  Products_0.Width,
+  Products_0.Depth,
+  Products_0.Quantity,
+  Products_0.Supplier_ID,
+  Products_0.UnitOfMeasure_ID,
+  Products_0.Currency_ID,
+  Products_0.DimensionUnit_ID,
+  Products_0.Category_ID,
+  Products_0.PriceCondition,
+  Products_0.PriceDetermination
+FROM com_fabboo_Products AS Products_0;
+
+CREATE VIEW com_fabboo_ProjProducts3 AS SELECT
+  Products_0.ReleaseDate,
+  Products_0.Name
+FROM com_fabboo_Products AS Products_0;
+
+CREATE VIEW localized_com_fabboo_Products AS SELECT
+  L_0.ID,
+  L_0.createdAt,
+  L_0.createdBy,
+  L_0.modifiedAt,
+  L_0.modifiedBy,
+  coalesce(localized_1.Name, L_0.Name) AS Name,
+  coalesce(localized_1.Description, L_0.Description) AS Description,
+  L_0.ImageUrl,
+  L_0.ReleaseDate,
+  L_0.DiscontinuedDate,
+  L_0.Price,
+  L_0.Height,
+  L_0.Width,
+  L_0.Depth,
+  L_0.Quantity,
+  L_0.Supplier_ID,
+  L_0.UnitOfMeasure_ID,
+  L_0.Currency_ID,
+  L_0.DimensionUnit_ID,
+  L_0.Category_ID,
+  L_0.PriceCondition,
+  L_0.PriceDetermination
+FROM (com_fabboo_Products AS L_0 LEFT JOIN com_fabboo_Products_texts AS localized_1 ON localized_1.ID = L_0.ID AND localized_1.locale = 'en');
+
+CREATE VIEW localized_com_fabboo_Suppliers AS SELECT
+  L_0.ID,
+  L_0.createdAt,
+  L_0.createdBy,
+  L_0.modifiedAt,
+  L_0.modifiedBy,
+  coalesce(localized_1.Name, L_0.Name) AS Name,
+  L_0.Adress_Street,
+  L_0.Adress_City,
+  L_0.Adress_State,
+  L_0.Adress_PostalCode,
+  L_0.Adress_Country,
+  L_0.Email,
+  L_0.Phone,
+  L_0.Fax
+FROM (com_fabboo_Suppliers AS L_0 LEFT JOIN com_fabboo_Suppliers_texts AS localized_1 ON localized_1.ID = L_0.ID AND localized_1.locale = 'en');
+
+CREATE VIEW localized_com_fabboo_Categories AS SELECT
+  L_0.ID,
+  coalesce(localized_1.Name, L_0.Name) AS Name
+FROM (com_fabboo_Categories AS L_0 LEFT JOIN com_fabboo_Categories_texts AS localized_1 ON localized_1.ID = L_0.ID AND localized_1.locale = 'en');
+
+CREATE VIEW localized_com_fabboo_StockAvailability AS SELECT
+  L_0.ID,
+  coalesce(localized_1.Description, L_0.Description) AS Description
+FROM (com_fabboo_StockAvailability AS L_0 LEFT JOIN com_fabboo_StockAvailability_texts AS localized_1 ON localized_1.ID = L_0.ID AND localized_1.locale = 'en');
+
+CREATE VIEW localized_com_fabboo_Currencies AS SELECT
+  L_0.ID,
+  coalesce(localized_1.Description, L_0.Description) AS Description
+FROM (com_fabboo_Currencies AS L_0 LEFT JOIN com_fabboo_Currencies_texts AS localized_1 ON localized_1.ID = L_0.ID AND localized_1.locale = 'en');
+
+CREATE VIEW localized_com_fabboo_UnitOfMeasures AS SELECT
+  L_0.ID,
+  coalesce(localized_1.Description, L_0.Description) AS Description
+FROM (com_fabboo_UnitOfMeasures AS L_0 LEFT JOIN com_fabboo_UnitOfMeasures_texts AS localized_1 ON localized_1.ID = L_0.ID AND localized_1.locale = 'en');
+
+CREATE VIEW localized_com_fabboo_DimensionUnit AS SELECT
+  L_0.ID,
+  coalesce(localized_1.Description, L_0.Description) AS Description
+FROM (com_fabboo_DimensionUnit AS L_0 LEFT JOIN com_fabboo_DimensionUnit_texts AS localized_1 ON localized_1.ID = L_0.ID AND localized_1.locale = 'en');
+
+CREATE VIEW localized_com_fabboo_Months AS SELECT
+  L_0.ID,
+  coalesce(localized_1.Description, L_0.Description) AS Description,
+  coalesce(localized_1.ShortDescription, L_0.ShortDescription) AS ShortDescription
+FROM (com_fabboo_Months AS L_0 LEFT JOIN com_fabboo_Months_texts AS localized_1 ON localized_1.ID = L_0.ID AND localized_1.locale = 'en');
+
+CREATE VIEW localized_com_fabboo_OrderItem AS SELECT
+  L.ID,
+  L.Order_ID,
+  L.Product_ID
+FROM com_fabboo_OrderItem AS L;
+
+CREATE VIEW localized_com_fabboo_ProductReview AS SELECT
+  L.ID,
+  L.createdAt,
+  L.createdBy,
+  L.modifiedAt,
+  L.modifiedBy,
+  L.Name,
+  L.Rating,
+  L.Comment,
+  L.Product_ID
+FROM com_fabboo_ProductReview AS L;
+
+CREATE VIEW localized_com_fabboo_SalesData AS SELECT
+  L.ID,
+  L.createdAt,
+  L.createdBy,
+  L.modifiedAt,
+  L.modifiedBy,
+  L.DeliveryDate,
+  L.Revenue,
+  L.Product_ID,
+  L.Currency_ID,
+  L.DeliveryMonth_ID
+FROM com_fabboo_SalesData AS L;
+
+CREATE VIEW localized_com_fabboo_Order AS SELECT
+  L.ID,
+  L.Date,
+  L.Customer
+FROM com_fabboo_Order AS L;
+
+CREATE VIEW localized_com_fabboo_SelProducts AS SELECT
+  Products_0.ID,
+  Products_0.createdAt,
+  Products_0.createdBy,
+  Products_0.modifiedAt,
+  Products_0.modifiedBy,
+  Products_0.Name,
+  Products_0.Description,
+  Products_0.ImageUrl,
+  Products_0.ReleaseDate,
+  Products_0.DiscontinuedDate,
+  Products_0.Price,
+  Products_0.Height,
+  Products_0.Width,
+  Products_0.Depth,
+  Products_0.Quantity,
+  Products_0.Supplier_ID,
+  Products_0.UnitOfMeasure_ID,
+  Products_0.Currency_ID,
+  Products_0.DimensionUnit_ID,
+  Products_0.Category_ID,
+  Products_0.PriceCondition,
+  Products_0.PriceDetermination
+FROM localized_com_fabboo_Products AS Products_0;
+
+CREATE VIEW localized_com_fabboo_SelProducts1 AS SELECT
+  Products_0.ID,
+  Products_0.createdAt,
+  Products_0.createdBy,
+  Products_0.modifiedAt,
+  Products_0.modifiedBy,
+  Products_0.Name,
+  Products_0.Description,
+  Products_0.ImageUrl,
+  Products_0.ReleaseDate,
+  Products_0.DiscontinuedDate,
+  Products_0.Price,
+  Products_0.Height,
+  Products_0.Width,
+  Products_0.Depth,
+  Products_0.Quantity,
+  Products_0.Supplier_ID,
+  Products_0.UnitOfMeasure_ID,
+  Products_0.Currency_ID,
+  Products_0.DimensionUnit_ID,
+  Products_0.Category_ID,
+  Products_0.PriceCondition,
+  Products_0.PriceDetermination
+FROM localized_com_fabboo_Products AS Products_0;
+
+CREATE VIEW localized_com_fabboo_SelPoducts2 AS SELECT
+  Products_0.Name,
+  Products_0.Price,
+  Products_0.Quantity
+FROM localized_com_fabboo_Products AS Products_0;
+
+CREATE VIEW localized_com_fabboo_SelProducts3 AS SELECT
+  ProductReview_1.Rating,
+  Products_0.Name,
+  sum(Products_0.Price) AS TotalPrice
+FROM (localized_com_fabboo_Products AS Products_0 LEFT JOIN localized_com_fabboo_ProductReview AS ProductReview_1 ON Products_0.Name = ProductReview_1.Name)
+GROUP BY ProductReview_1.Rating, Products_0.Name
+ORDER BY Rating;
+
+CREATE VIEW localized_com_fabboo_ProjProducts AS SELECT
+  Products_0.ID,
+  Products_0.createdAt,
+  Products_0.createdBy,
+  Products_0.modifiedAt,
+  Products_0.modifiedBy,
+  Products_0.Name,
+  Products_0.Description,
+  Products_0.ImageUrl,
+  Products_0.ReleaseDate,
+  Products_0.DiscontinuedDate,
+  Products_0.Price,
+  Products_0.Height,
+  Products_0.Width,
+  Products_0.Depth,
+  Products_0.Quantity,
+  Products_0.Supplier_ID,
+  Products_0.UnitOfMeasure_ID,
+  Products_0.Currency_ID,
+  Products_0.DimensionUnit_ID,
+  Products_0.Category_ID,
+  Products_0.PriceCondition,
+  Products_0.PriceDetermination
+FROM localized_com_fabboo_Products AS Products_0;
+
+CREATE VIEW localized_com_fabboo_ProjProducts2 AS SELECT
+  Products_0.ID,
+  Products_0.createdAt,
+  Products_0.createdBy,
+  Products_0.modifiedAt,
+  Products_0.modifiedBy,
+  Products_0.Name,
+  Products_0.Description,
+  Products_0.ImageUrl,
+  Products_0.ReleaseDate,
+  Products_0.DiscontinuedDate,
+  Products_0.Price,
+  Products_0.Height,
+  Products_0.Width,
+  Products_0.Depth,
+  Products_0.Quantity,
+  Products_0.Supplier_ID,
+  Products_0.UnitOfMeasure_ID,
+  Products_0.Currency_ID,
+  Products_0.DimensionUnit_ID,
+  Products_0.Category_ID,
+  Products_0.PriceCondition,
+  Products_0.PriceDetermination
+FROM localized_com_fabboo_Products AS Products_0;
+
+CREATE VIEW localized_com_fabboo_ProjProducts3 AS SELECT
+  Products_0.ReleaseDate,
+  Products_0.Name
+FROM localized_com_fabboo_Products AS Products_0;
+
+CREATE VIEW localized_de_com_fabboo_Products AS SELECT
+  L_0.ID,
+  L_0.createdAt,
+  L_0.createdBy,
+  L_0.modifiedAt,
+  L_0.modifiedBy,
+  coalesce(localized_de_1.Name, L_0.Name) AS Name,
+  coalesce(localized_de_1.Description, L_0.Description) AS Description,
+  L_0.ImageUrl,
+  L_0.ReleaseDate,
+  L_0.DiscontinuedDate,
+  L_0.Price,
+  L_0.Height,
+  L_0.Width,
+  L_0.Depth,
+  L_0.Quantity,
+  L_0.Supplier_ID,
+  L_0.UnitOfMeasure_ID,
+  L_0.Currency_ID,
+  L_0.DimensionUnit_ID,
+  L_0.Category_ID,
+  L_0.PriceCondition,
+  L_0.PriceDetermination
+FROM (com_fabboo_Products AS L_0 LEFT JOIN com_fabboo_Products_texts AS localized_de_1 ON localized_de_1.ID = L_0.ID AND localized_de_1.locale = 'de');
+
+CREATE VIEW localized_fr_com_fabboo_Products AS SELECT
+  L_0.ID,
+  L_0.createdAt,
+  L_0.createdBy,
+  L_0.modifiedAt,
+  L_0.modifiedBy,
+  coalesce(localized_fr_1.Name, L_0.Name) AS Name,
+  coalesce(localized_fr_1.Description, L_0.Description) AS Description,
+  L_0.ImageUrl,
+  L_0.ReleaseDate,
+  L_0.DiscontinuedDate,
+  L_0.Price,
+  L_0.Height,
+  L_0.Width,
+  L_0.Depth,
+  L_0.Quantity,
+  L_0.Supplier_ID,
+  L_0.UnitOfMeasure_ID,
+  L_0.Currency_ID,
+  L_0.DimensionUnit_ID,
+  L_0.Category_ID,
+  L_0.PriceCondition,
+  L_0.PriceDetermination
+FROM (com_fabboo_Products AS L_0 LEFT JOIN com_fabboo_Products_texts AS localized_fr_1 ON localized_fr_1.ID = L_0.ID AND localized_fr_1.locale = 'fr');
+
+CREATE VIEW localized_de_com_fabboo_Suppliers AS SELECT
+  L_0.ID,
+  L_0.createdAt,
+  L_0.createdBy,
+  L_0.modifiedAt,
+  L_0.modifiedBy,
+  coalesce(localized_de_1.Name, L_0.Name) AS Name,
+  L_0.Adress_Street,
+  L_0.Adress_City,
+  L_0.Adress_State,
+  L_0.Adress_PostalCode,
+  L_0.Adress_Country,
+  L_0.Email,
+  L_0.Phone,
+  L_0.Fax
+FROM (com_fabboo_Suppliers AS L_0 LEFT JOIN com_fabboo_Suppliers_texts AS localized_de_1 ON localized_de_1.ID = L_0.ID AND localized_de_1.locale = 'de');
+
+CREATE VIEW localized_fr_com_fabboo_Suppliers AS SELECT
+  L_0.ID,
+  L_0.createdAt,
+  L_0.createdBy,
+  L_0.modifiedAt,
+  L_0.modifiedBy,
+  coalesce(localized_fr_1.Name, L_0.Name) AS Name,
+  L_0.Adress_Street,
+  L_0.Adress_City,
+  L_0.Adress_State,
+  L_0.Adress_PostalCode,
+  L_0.Adress_Country,
+  L_0.Email,
+  L_0.Phone,
+  L_0.Fax
+FROM (com_fabboo_Suppliers AS L_0 LEFT JOIN com_fabboo_Suppliers_texts AS localized_fr_1 ON localized_fr_1.ID = L_0.ID AND localized_fr_1.locale = 'fr');
+
+CREATE VIEW localized_de_com_fabboo_Categories AS SELECT
+  L_0.ID,
+  coalesce(localized_de_1.Name, L_0.Name) AS Name
+FROM (com_fabboo_Categories AS L_0 LEFT JOIN com_fabboo_Categories_texts AS localized_de_1 ON localized_de_1.ID = L_0.ID AND localized_de_1.locale = 'de');
+
+CREATE VIEW localized_fr_com_fabboo_Categories AS SELECT
+  L_0.ID,
+  coalesce(localized_fr_1.Name, L_0.Name) AS Name
+FROM (com_fabboo_Categories AS L_0 LEFT JOIN com_fabboo_Categories_texts AS localized_fr_1 ON localized_fr_1.ID = L_0.ID AND localized_fr_1.locale = 'fr');
+
+CREATE VIEW localized_de_com_fabboo_StockAvailability AS SELECT
+  L_0.ID,
+  coalesce(localized_de_1.Description, L_0.Description) AS Description
+FROM (com_fabboo_StockAvailability AS L_0 LEFT JOIN com_fabboo_StockAvailability_texts AS localized_de_1 ON localized_de_1.ID = L_0.ID AND localized_de_1.locale = 'de');
+
+CREATE VIEW localized_fr_com_fabboo_StockAvailability AS SELECT
+  L_0.ID,
+  coalesce(localized_fr_1.Description, L_0.Description) AS Description
+FROM (com_fabboo_StockAvailability AS L_0 LEFT JOIN com_fabboo_StockAvailability_texts AS localized_fr_1 ON localized_fr_1.ID = L_0.ID AND localized_fr_1.locale = 'fr');
+
+CREATE VIEW localized_de_com_fabboo_Currencies AS SELECT
+  L_0.ID,
+  coalesce(localized_de_1.Description, L_0.Description) AS Description
+FROM (com_fabboo_Currencies AS L_0 LEFT JOIN com_fabboo_Currencies_texts AS localized_de_1 ON localized_de_1.ID = L_0.ID AND localized_de_1.locale = 'de');
+
+CREATE VIEW localized_fr_com_fabboo_Currencies AS SELECT
+  L_0.ID,
+  coalesce(localized_fr_1.Description, L_0.Description) AS Description
+FROM (com_fabboo_Currencies AS L_0 LEFT JOIN com_fabboo_Currencies_texts AS localized_fr_1 ON localized_fr_1.ID = L_0.ID AND localized_fr_1.locale = 'fr');
+
+CREATE VIEW localized_de_com_fabboo_UnitOfMeasures AS SELECT
+  L_0.ID,
+  coalesce(localized_de_1.Description, L_0.Description) AS Description
+FROM (com_fabboo_UnitOfMeasures AS L_0 LEFT JOIN com_fabboo_UnitOfMeasures_texts AS localized_de_1 ON localized_de_1.ID = L_0.ID AND localized_de_1.locale = 'de');
+
+CREATE VIEW localized_fr_com_fabboo_UnitOfMeasures AS SELECT
+  L_0.ID,
+  coalesce(localized_fr_1.Description, L_0.Description) AS Description
+FROM (com_fabboo_UnitOfMeasures AS L_0 LEFT JOIN com_fabboo_UnitOfMeasures_texts AS localized_fr_1 ON localized_fr_1.ID = L_0.ID AND localized_fr_1.locale = 'fr');
+
+CREATE VIEW localized_de_com_fabboo_DimensionUnit AS SELECT
+  L_0.ID,
+  coalesce(localized_de_1.Description, L_0.Description) AS Description
+FROM (com_fabboo_DimensionUnit AS L_0 LEFT JOIN com_fabboo_DimensionUnit_texts AS localized_de_1 ON localized_de_1.ID = L_0.ID AND localized_de_1.locale = 'de');
+
+CREATE VIEW localized_fr_com_fabboo_DimensionUnit AS SELECT
+  L_0.ID,
+  coalesce(localized_fr_1.Description, L_0.Description) AS Description
+FROM (com_fabboo_DimensionUnit AS L_0 LEFT JOIN com_fabboo_DimensionUnit_texts AS localized_fr_1 ON localized_fr_1.ID = L_0.ID AND localized_fr_1.locale = 'fr');
+
+CREATE VIEW localized_de_com_fabboo_Months AS SELECT
+  L_0.ID,
+  coalesce(localized_de_1.Description, L_0.Description) AS Description,
+  coalesce(localized_de_1.ShortDescription, L_0.ShortDescription) AS ShortDescription
+FROM (com_fabboo_Months AS L_0 LEFT JOIN com_fabboo_Months_texts AS localized_de_1 ON localized_de_1.ID = L_0.ID AND localized_de_1.locale = 'de');
+
+CREATE VIEW localized_fr_com_fabboo_Months AS SELECT
+  L_0.ID,
+  coalesce(localized_fr_1.Description, L_0.Description) AS Description,
+  coalesce(localized_fr_1.ShortDescription, L_0.ShortDescription) AS ShortDescription
+FROM (com_fabboo_Months AS L_0 LEFT JOIN com_fabboo_Months_texts AS localized_fr_1 ON localized_fr_1.ID = L_0.ID AND localized_fr_1.locale = 'fr');
+
+CREATE VIEW localized_de_com_fabboo_OrderItem AS SELECT
+  L.ID,
+  L.Order_ID,
+  L.Product_ID
+FROM com_fabboo_OrderItem AS L;
+
+CREATE VIEW localized_fr_com_fabboo_OrderItem AS SELECT
+  L.ID,
+  L.Order_ID,
+  L.Product_ID
+FROM com_fabboo_OrderItem AS L;
+
+CREATE VIEW localized_de_com_fabboo_ProductReview AS SELECT
+  L.ID,
+  L.createdAt,
+  L.createdBy,
+  L.modifiedAt,
+  L.modifiedBy,
+  L.Name,
+  L.Rating,
+  L.Comment,
+  L.Product_ID
+FROM com_fabboo_ProductReview AS L;
+
+CREATE VIEW localized_fr_com_fabboo_ProductReview AS SELECT
+  L.ID,
+  L.createdAt,
+  L.createdBy,
+  L.modifiedAt,
+  L.modifiedBy,
+  L.Name,
+  L.Rating,
+  L.Comment,
+  L.Product_ID
+FROM com_fabboo_ProductReview AS L;
+
+CREATE VIEW localized_de_com_fabboo_SalesData AS SELECT
+  L.ID,
+  L.createdAt,
+  L.createdBy,
+  L.modifiedAt,
+  L.modifiedBy,
+  L.DeliveryDate,
+  L.Revenue,
+  L.Product_ID,
+  L.Currency_ID,
+  L.DeliveryMonth_ID
+FROM com_fabboo_SalesData AS L;
+
+CREATE VIEW localized_fr_com_fabboo_SalesData AS SELECT
+  L.ID,
+  L.createdAt,
+  L.createdBy,
+  L.modifiedAt,
+  L.modifiedBy,
+  L.DeliveryDate,
+  L.Revenue,
+  L.Product_ID,
+  L.Currency_ID,
+  L.DeliveryMonth_ID
+FROM com_fabboo_SalesData AS L;
+
+CREATE VIEW localized_de_com_fabboo_Order AS SELECT
+  L.ID,
+  L.Date,
+  L.Customer
+FROM com_fabboo_Order AS L;
+
+CREATE VIEW localized_fr_com_fabboo_Order AS SELECT
+  L.ID,
+  L.Date,
+  L.Customer
+FROM com_fabboo_Order AS L;
+
+CREATE VIEW localized_de_com_fabboo_SelProducts AS SELECT
+  Products_0.ID,
+  Products_0.createdAt,
+  Products_0.createdBy,
+  Products_0.modifiedAt,
+  Products_0.modifiedBy,
+  Products_0.Name,
+  Products_0.Description,
+  Products_0.ImageUrl,
+  Products_0.ReleaseDate,
+  Products_0.DiscontinuedDate,
+  Products_0.Price,
+  Products_0.Height,
+  Products_0.Width,
+  Products_0.Depth,
+  Products_0.Quantity,
+  Products_0.Supplier_ID,
+  Products_0.UnitOfMeasure_ID,
+  Products_0.Currency_ID,
+  Products_0.DimensionUnit_ID,
+  Products_0.Category_ID,
+  Products_0.PriceCondition,
+  Products_0.PriceDetermination
+FROM localized_de_com_fabboo_Products AS Products_0;
+
+CREATE VIEW localized_fr_com_fabboo_SelProducts AS SELECT
+  Products_0.ID,
+  Products_0.createdAt,
+  Products_0.createdBy,
+  Products_0.modifiedAt,
+  Products_0.modifiedBy,
+  Products_0.Name,
+  Products_0.Description,
+  Products_0.ImageUrl,
+  Products_0.ReleaseDate,
+  Products_0.DiscontinuedDate,
+  Products_0.Price,
+  Products_0.Height,
+  Products_0.Width,
+  Products_0.Depth,
+  Products_0.Quantity,
+  Products_0.Supplier_ID,
+  Products_0.UnitOfMeasure_ID,
+  Products_0.Currency_ID,
+  Products_0.DimensionUnit_ID,
+  Products_0.Category_ID,
+  Products_0.PriceCondition,
+  Products_0.PriceDetermination
+FROM localized_fr_com_fabboo_Products AS Products_0;
+
+CREATE VIEW localized_de_com_fabboo_SelProducts1 AS SELECT
+  Products_0.ID,
+  Products_0.createdAt,
+  Products_0.createdBy,
+  Products_0.modifiedAt,
+  Products_0.modifiedBy,
+  Products_0.Name,
+  Products_0.Description,
+  Products_0.ImageUrl,
+  Products_0.ReleaseDate,
+  Products_0.DiscontinuedDate,
+  Products_0.Price,
+  Products_0.Height,
+  Products_0.Width,
+  Products_0.Depth,
+  Products_0.Quantity,
+  Products_0.Supplier_ID,
+  Products_0.UnitOfMeasure_ID,
+  Products_0.Currency_ID,
+  Products_0.DimensionUnit_ID,
+  Products_0.Category_ID,
+  Products_0.PriceCondition,
+  Products_0.PriceDetermination
+FROM localized_de_com_fabboo_Products AS Products_0;
+
+CREATE VIEW localized_fr_com_fabboo_SelProducts1 AS SELECT
+  Products_0.ID,
+  Products_0.createdAt,
+  Products_0.createdBy,
+  Products_0.modifiedAt,
+  Products_0.modifiedBy,
+  Products_0.Name,
+  Products_0.Description,
+  Products_0.ImageUrl,
+  Products_0.ReleaseDate,
+  Products_0.DiscontinuedDate,
+  Products_0.Price,
+  Products_0.Height,
+  Products_0.Width,
+  Products_0.Depth,
+  Products_0.Quantity,
+  Products_0.Supplier_ID,
+  Products_0.UnitOfMeasure_ID,
+  Products_0.Currency_ID,
+  Products_0.DimensionUnit_ID,
+  Products_0.Category_ID,
+  Products_0.PriceCondition,
+  Products_0.PriceDetermination
+FROM localized_fr_com_fabboo_Products AS Products_0;
+
+CREATE VIEW localized_de_com_fabboo_SelPoducts2 AS SELECT
+  Products_0.Name,
+  Products_0.Price,
+  Products_0.Quantity
+FROM localized_de_com_fabboo_Products AS Products_0;
+
+CREATE VIEW localized_fr_com_fabboo_SelPoducts2 AS SELECT
+  Products_0.Name,
+  Products_0.Price,
+  Products_0.Quantity
+FROM localized_fr_com_fabboo_Products AS Products_0;
+
+CREATE VIEW localized_de_com_fabboo_SelProducts3 AS SELECT
+  ProductReview_1.Rating,
+  Products_0.Name,
+  sum(Products_0.Price) AS TotalPrice
+FROM (localized_de_com_fabboo_Products AS Products_0 LEFT JOIN localized_de_com_fabboo_ProductReview AS ProductReview_1 ON Products_0.Name = ProductReview_1.Name)
+GROUP BY ProductReview_1.Rating, Products_0.Name
+ORDER BY Rating;
+
+CREATE VIEW localized_fr_com_fabboo_SelProducts3 AS SELECT
+  ProductReview_1.Rating,
+  Products_0.Name,
+  sum(Products_0.Price) AS TotalPrice
+FROM (localized_fr_com_fabboo_Products AS Products_0 LEFT JOIN localized_fr_com_fabboo_ProductReview AS ProductReview_1 ON Products_0.Name = ProductReview_1.Name)
+GROUP BY ProductReview_1.Rating, Products_0.Name
+ORDER BY Rating;
+
+CREATE VIEW localized_de_com_fabboo_ProjProducts AS SELECT
+  Products_0.ID,
+  Products_0.createdAt,
+  Products_0.createdBy,
+  Products_0.modifiedAt,
+  Products_0.modifiedBy,
+  Products_0.Name,
+  Products_0.Description,
+  Products_0.ImageUrl,
+  Products_0.ReleaseDate,
+  Products_0.DiscontinuedDate,
+  Products_0.Price,
+  Products_0.Height,
+  Products_0.Width,
+  Products_0.Depth,
+  Products_0.Quantity,
+  Products_0.Supplier_ID,
+  Products_0.UnitOfMeasure_ID,
+  Products_0.Currency_ID,
+  Products_0.DimensionUnit_ID,
+  Products_0.Category_ID,
+  Products_0.PriceCondition,
+  Products_0.PriceDetermination
+FROM localized_de_com_fabboo_Products AS Products_0;
+
+CREATE VIEW localized_fr_com_fabboo_ProjProducts AS SELECT
+  Products_0.ID,
+  Products_0.createdAt,
+  Products_0.createdBy,
+  Products_0.modifiedAt,
+  Products_0.modifiedBy,
+  Products_0.Name,
+  Products_0.Description,
+  Products_0.ImageUrl,
+  Products_0.ReleaseDate,
+  Products_0.DiscontinuedDate,
+  Products_0.Price,
+  Products_0.Height,
+  Products_0.Width,
+  Products_0.Depth,
+  Products_0.Quantity,
+  Products_0.Supplier_ID,
+  Products_0.UnitOfMeasure_ID,
+  Products_0.Currency_ID,
+  Products_0.DimensionUnit_ID,
+  Products_0.Category_ID,
+  Products_0.PriceCondition,
+  Products_0.PriceDetermination
+FROM localized_fr_com_fabboo_Products AS Products_0;
+
+CREATE VIEW localized_de_com_fabboo_ProjProducts2 AS SELECT
+  Products_0.ID,
+  Products_0.createdAt,
+  Products_0.createdBy,
+  Products_0.modifiedAt,
+  Products_0.modifiedBy,
+  Products_0.Name,
+  Products_0.Description,
+  Products_0.ImageUrl,
+  Products_0.ReleaseDate,
+  Products_0.DiscontinuedDate,
+  Products_0.Price,
+  Products_0.Height,
+  Products_0.Width,
+  Products_0.Depth,
+  Products_0.Quantity,
+  Products_0.Supplier_ID,
+  Products_0.UnitOfMeasure_ID,
+  Products_0.Currency_ID,
+  Products_0.DimensionUnit_ID,
+  Products_0.Category_ID,
+  Products_0.PriceCondition,
+  Products_0.PriceDetermination
+FROM localized_de_com_fabboo_Products AS Products_0;
+
+CREATE VIEW localized_fr_com_fabboo_ProjProducts2 AS SELECT
+  Products_0.ID,
+  Products_0.createdAt,
+  Products_0.createdBy,
+  Products_0.modifiedAt,
+  Products_0.modifiedBy,
+  Products_0.Name,
+  Products_0.Description,
+  Products_0.ImageUrl,
+  Products_0.ReleaseDate,
+  Products_0.DiscontinuedDate,
+  Products_0.Price,
+  Products_0.Height,
+  Products_0.Width,
+  Products_0.Depth,
+  Products_0.Quantity,
+  Products_0.Supplier_ID,
+  Products_0.UnitOfMeasure_ID,
+  Products_0.Currency_ID,
+  Products_0.DimensionUnit_ID,
+  Products_0.Category_ID,
+  Products_0.PriceCondition,
+  Products_0.PriceDetermination
+FROM localized_fr_com_fabboo_Products AS Products_0;
+
+CREATE VIEW localized_de_com_fabboo_ProjProducts3 AS SELECT
+  Products_0.ReleaseDate,
+  Products_0.Name
+FROM localized_de_com_fabboo_Products AS Products_0;
+
+CREATE VIEW localized_fr_com_fabboo_ProjProducts3 AS SELECT
+  Products_0.ReleaseDate,
+  Products_0.Name
+FROM localized_fr_com_fabboo_Products AS Products_0;
+

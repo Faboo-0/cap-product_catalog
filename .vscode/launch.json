@@ -5,10 +5,16 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "command": "cds run --with-mocks --in-memory?",
-      "name": "cds run",
+      "name": "cds serve",
       "request": "launch",
-      "type": "node-terminal",
+      "type": "node",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "cds",
+      "args": [
+        "serve",
+        "--with-mocks",
+        "--in-memory?"
+      ],
       "skipFiles": [
         "<node_internals>/**"
       ]
