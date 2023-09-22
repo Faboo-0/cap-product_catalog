@@ -1,6 +1,19 @@
 # Change Log
 SAP CAP course project - Cloud Application Programming Model by Logali Group
 
+## [1.2.0] - 2023-09-22
+ 
+### Added
+  Funciones y Acciones
+    -> Funciones
+    -> Acciones
+    -> Before - All Request
+    -> Funciones y Acciones Vinculadas
+
+### Changed
+### Fixed
+
+
 ## [1.1.0] - 2023-09-22
  
 ### Added
