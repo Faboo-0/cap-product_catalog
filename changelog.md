@@ -1,12 +1,26 @@
 # Change Log
 SAP CAP course project - Cloud Application Programming Model by Logali Group
 
+## [1.1.0] - 2023-09-22
+ 
+### Added
+  Consulta CQL Embebida
+    -> on READ
+    -> Preticiones HTTP con BAS
+    -> on READ - Filtros
+    -> After
+    -> on CREATE
+    -> Before
+    -> on UPDATE
+    -> on DELETE
+
+### Changed
+### Fixed
+
  
 ## [1.0.0] - 2023-09-19
  
 ### Added
-
-- [PROJECTNAME-ZZZZ](http://tickets.projectname.com/browse/PROJECTNAME-ZZZZ)
   Added course modules:
     -> CAP Project GitHub
     -> Definition Language - CDL
@@ -18,5 +32,4 @@ SAP CAP course project - Cloud Application Programming Model by Logali Group
     -> Query Language - CQL
 
 ### Changed
-   
 ### Fixed
