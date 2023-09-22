@@ -122,6 +122,16 @@ CREATE TABLE com_training_StudentCourse (
   PRIMARY KEY(ID)
 );
 
+CREATE TABLE com_training_Orders (
+  ClientEmail NVARCHAR(65) NOT NULL,
+  FirstName NVARCHAR(30),
+  LastName NVARCHAR(30),
+  CreatedOn DATE_TEXT,
+  Reviewed BOOLEAN,
+  Approved BOOLEAN,
+  PRIMARY KEY(ClientEmail)
+);
+
 CREATE TABLE com_fabboo_materials_Products_texts (
   locale NVARCHAR(14) NOT NULL,
   ID NVARCHAR(36) NOT NULL,
@@ -180,31 +190,6 @@ CREATE TABLE com_fabboo_sales_Suppliers_texts (
   PRIMARY KEY(locale, ID)
 );
 
-CREATE VIEW ProductService_Products AS SELECT
-  Products_0.ID,
-  Products_0.Name,
-  Products_0.Description,
-  Products_0.ImageUrl,
-  Products_0.ReleaseDate,
-  Products_0.DiscontinuedDate,
-  Products_0.Price,
-  Products_0.Height,
-  Products_0.Width,
-  Products_0.Depth,
-  Products_0.Quantity,
-  Products_0.Supplier_ID,
-  Products_0.UnitOfMeasure_ID,
-  Products_0.Currency_ID,
-  Products_0.DimensionUnit_ID,
-  Category_1.Name AS Category,
-  Products_0.PriceCondition,
-  Products_0.PriceDetermination,
-  Products_0.UnitOfMeasure_ID AS ToUnitOfMeasure_ID,
-  Products_0.Currency_ID AS ToCurrency_ID,
-  Products_0.Category_ID AS ToCategory_ID,
-  Products_0.DimensionUnit_ID AS ToDimensionUnit_ID
-FROM (com_fabboo_materials_Products AS Products_0 LEFT JOIN com_fabboo_materials_Categories AS Category_1 ON Products_0.Category_ID = Category_1.ID);
-
 CREATE VIEW ProductService_Supplier AS SELECT
   Suppliers_0.ID,
   Suppliers_0.Name,
@@ -255,6 +240,63 @@ CREATE VIEW ProductService_VH_DimenionUnits AS SELECT
   DimensionUnit_0.ID AS Code,
   DimensionUnit_0.Description AS Text
 FROM com_fabboo_materials_DimensionUnit AS DimensionUnit_0;
+
+CREATE VIEW MyService_SuppliersProduct AS SELECT
+  Products_0.ID,
+  Products_0.Name,
+  Products_0.Description,
+  Products_0.ImageUrl,
+  Products_0.ReleaseDate,
+  Products_0.DiscontinuedDate,
+  Products_0.Price,
+  Products_0.Height,
+  Products_0.Width,
+  Products_0.Depth,
+  Products_0.Quantity,
+  Products_0.Supplier_ID,
+  Products_0.UnitOfMeasure_ID,
+  Products_0.Currency_ID,
+  Products_0.DimensionUnit_ID,
+  Products_0.Category_ID,
+  Products_0.PriceCondition,
+  Products_0.PriceDetermination,
+  Supplier_1.Adress_Street,
+  Supplier_1.Adress_City,
+  Supplier_1.Adress_State,
+  Supplier_1.Adress_PostalCode,
+  Supplier_1.Adress_Country
+FROM (com_fabboo_materials_Products AS Products_0 LEFT JOIN com_fabboo_sales_Suppliers AS Supplier_1 ON Products_0.Supplier_ID = Supplier_1.ID)
+WHERE (Supplier_1.Adress_PostalCode = 98074) AND (Products_0.Name = 'Pink Lemonade');
+
+CREATE VIEW MyService_SuppliersToSales AS SELECT
+  Supplier_1.Email,
+  Category_2.Name,
+  Currency_4.ID,
+  Currency_4.Description
+FROM ((((com_fabboo_materials_Products AS Products_0 LEFT JOIN com_fabboo_sales_Suppliers AS Supplier_1 ON Products_0.Supplier_ID = Supplier_1.ID) LEFT JOIN com_fabboo_materials_Categories AS Category_2 ON Products_0.Category_ID = Category_2.ID) LEFT JOIN com_fabboo_sales_SalesData AS SalesData_3 ON (SalesData_3.Product_ID = Products_0.ID)) LEFT JOIN com_fabboo_materials_Currencies AS Currency_4 ON SalesData_3.Currency_ID = Currency_4.ID);
+
+CREATE VIEW MyService_FiltroEnfix AS SELECT
+  Supplier_1.Phone
+FROM (com_fabboo_materials_Products AS Products_0 LEFT JOIN com_fabboo_sales_Suppliers AS Supplier_1 ON (Products_0.Supplier_ID = Supplier_1.ID) AND (Supplier_1.Name = 'Exotic Liquids'))
+WHERE Products_0.Name = 'Pink Lemonade';
+
+CREATE VIEW MyService_FiltroJoin AS SELECT
+  sup_1.Phone
+FROM ((com_fabboo_materials_Products AS Products_0 LEFT JOIN com_fabboo_sales_Suppliers AS sup_1 ON (sup_1.ID = Products_0.Supplier_ID) AND sup_1.Name = 'Exotic Liquids') LEFT JOIN com_fabboo_materials_Products AS Product_2 ON (Product_2.Supplier_ID = sup_1.ID))
+WHERE Product_2.Name = 'Pink Lemonade';
+
+CREATE VIEW Reports_EntityCasting AS SELECT
+  CAST(Products_0.Price AS INTEGER) AS Price,
+  Products_0.Price AS Price02
+FROM com_fabboo_materials_Products AS Products_0;
+
+CREATE VIEW Reports_EntityExists AS SELECT
+  Products_0.Name
+FROM com_fabboo_materials_Products AS Products_0
+WHERE EXISTS (SELECT
+    1 AS dummy
+  FROM com_fabboo_sales_Suppliers AS _Supplier_exists_1
+  WHERE _Supplier_exists_1.ID = Products_0.Supplier_ID AND _Supplier_exists_1.Name = 'Exotic Liquids');
 
 CREATE VIEW com_fabboo_materials_SelProducts AS SELECT
   Products_0.ID,
@@ -359,7 +401,13 @@ FROM (com_fabboo_materials_Products AS Products_0 LEFT JOIN com_fabboo_materials
 GROUP BY ProductReview_1.Rating, Products_0.Name
 ORDER BY Rating;
 
-CREATE VIEW ProductService_Products_texts AS SELECT
+CREATE VIEW com_fabboo_reports_AverageRating AS SELECT
+  ProductReview_0.Product_ID AS ProductId,
+  avg(ProductReview_0.Rating) AS AverageRating
+FROM com_fabboo_materials_ProductReview AS ProductReview_0
+GROUP BY ProductReview_0.Product_ID;
+
+CREATE VIEW MyService_SuppliersProduct_texts AS SELECT
   texts_0.locale,
   texts_0.ID,
   texts_0.Name,
@@ -460,7 +508,12 @@ CREATE VIEW localized_com_fabboo_sales_Order AS SELECT
   L.Customer
 FROM com_fabboo_sales_Order AS L;
 
-CREATE VIEW localized_ProductService_Products AS SELECT
+CREATE VIEW Reports_ProductReview AS SELECT
+  AverageRating_0.ProductId,
+  AverageRating_0.AverageRating
+FROM com_fabboo_reports_AverageRating AS AverageRating_0;
+
+CREATE VIEW com_fabboo_reports_Products AS SELECT
   Products_0.ID,
   Products_0.Name,
   Products_0.Description,
@@ -476,14 +529,12 @@ CREATE VIEW localized_ProductService_Products AS SELECT
   Products_0.UnitOfMeasure_ID,
   Products_0.Currency_ID,
   Products_0.DimensionUnit_ID,
-  Category_1.Name AS Category,
+  Products_0.Category_ID,
   Products_0.PriceCondition,
   Products_0.PriceDetermination,
-  Products_0.UnitOfMeasure_ID AS ToUnitOfMeasure_ID,
-  Products_0.Currency_ID AS ToCurrency_ID,
-  Products_0.Category_ID AS ToCategory_ID,
-  Products_0.DimensionUnit_ID AS ToDimensionUnit_ID
-FROM (localized_com_fabboo_materials_Products AS Products_0 LEFT JOIN localized_com_fabboo_materials_Categories AS Category_1 ON Products_0.Category_ID = Category_1.ID);
+  ToAverageRating_1.AverageRating AS Rating,
+  CASE WHEN Products_0.Quantity >= 8 THEN 3 WHEN Products_0.Quantity > 0 THEN 2 ELSE 1 END AS StockAvailability
+FROM (com_fabboo_materials_Products AS Products_0 LEFT JOIN com_fabboo_reports_AverageRating AS ToAverageRating_1 ON ToAverageRating_1.ProductId = Products_0.ID);
 
 CREATE VIEW localized_ProductService_Supplier AS SELECT
   Suppliers_0.ID,
@@ -527,6 +578,48 @@ CREATE VIEW localized_ProductService_VH_DimenionUnits AS SELECT
   DimensionUnit_0.ID AS Code,
   DimensionUnit_0.Description AS Text
 FROM localized_com_fabboo_materials_DimensionUnit AS DimensionUnit_0;
+
+CREATE VIEW localized_MyService_SuppliersProduct AS SELECT
+  Products_0.ID,
+  Products_0.Name,
+  Products_0.Description,
+  Products_0.ImageUrl,
+  Products_0.ReleaseDate,
+  Products_0.DiscontinuedDate,
+  Products_0.Price,
+  Products_0.Height,
+  Products_0.Width,
+  Products_0.Depth,
+  Products_0.Quantity,
+  Products_0.Supplier_ID,
+  Products_0.UnitOfMeasure_ID,
+  Products_0.Currency_ID,
+  Products_0.DimensionUnit_ID,
+  Products_0.Category_ID,
+  Products_0.PriceCondition,
+  Products_0.PriceDetermination,
+  Supplier_1.Adress_Street,
+  Supplier_1.Adress_City,
+  Supplier_1.Adress_State,
+  Supplier_1.Adress_PostalCode,
+  Supplier_1.Adress_Country
+FROM (localized_com_fabboo_materials_Products AS Products_0 LEFT JOIN localized_com_fabboo_sales_Suppliers AS Supplier_1 ON Products_0.Supplier_ID = Supplier_1.ID)
+WHERE (Supplier_1.Adress_PostalCode = 98074) AND (Products_0.Name = 'Pink Lemonade');
+
+CREATE VIEW localized_MyService_SuppliersToSales AS SELECT
+  Supplier_1.Email,
+  Category_2.Name,
+  Currency_4.ID,
+  Currency_4.Description
+FROM ((((localized_com_fabboo_materials_Products AS Products_0 LEFT JOIN localized_com_fabboo_sales_Suppliers AS Supplier_1 ON Products_0.Supplier_ID = Supplier_1.ID) LEFT JOIN localized_com_fabboo_materials_Categories AS Category_2 ON Products_0.Category_ID = Category_2.ID) LEFT JOIN localized_com_fabboo_sales_SalesData AS SalesData_3 ON (SalesData_3.Product_ID = Products_0.ID)) LEFT JOIN localized_com_fabboo_materials_Currencies AS Currency_4 ON SalesData_3.Currency_ID = Currency_4.ID);
+
+CREATE VIEW localized_Reports_EntityExists AS SELECT
+  Products_0.Name
+FROM localized_com_fabboo_materials_Products AS Products_0
+WHERE EXISTS (SELECT
+    1 AS dummy
+  FROM localized_com_fabboo_sales_Suppliers AS _Supplier_exists_1
+  WHERE _Supplier_exists_1.ID = Products_0.Supplier_ID AND _Supplier_exists_1.Name = 'Exotic Liquids');
 
 CREATE VIEW localized_com_fabboo_materials_SelProducts AS SELECT
   Products_0.ID,
@@ -631,6 +724,29 @@ FROM (localized_com_fabboo_materials_Products AS Products_0 LEFT JOIN localized_
 GROUP BY ProductReview_1.Rating, Products_0.Name
 ORDER BY Rating;
 
+CREATE VIEW localized_com_fabboo_reports_Products AS SELECT
+  Products_0.ID,
+  Products_0.Name,
+  Products_0.Description,
+  Products_0.ImageUrl,
+  Products_0.ReleaseDate,
+  Products_0.DiscontinuedDate,
+  Products_0.Price,
+  Products_0.Height,
+  Products_0.Width,
+  Products_0.Depth,
+  Products_0.Quantity,
+  Products_0.Supplier_ID,
+  Products_0.UnitOfMeasure_ID,
+  Products_0.Currency_ID,
+  Products_0.DimensionUnit_ID,
+  Products_0.Category_ID,
+  Products_0.PriceCondition,
+  Products_0.PriceDetermination,
+  ToAverageRating_1.AverageRating AS Rating,
+  CASE WHEN Products_0.Quantity >= 8 THEN 3 WHEN Products_0.Quantity > 0 THEN 2 ELSE 1 END AS StockAvailability
+FROM (localized_com_fabboo_materials_Products AS Products_0 LEFT JOIN com_fabboo_reports_AverageRating AS ToAverageRating_1 ON ToAverageRating_1.ProductId = Products_0.ID);
+
 CREATE VIEW localized_ProductService_Reviews AS SELECT
   ProductReview_0.ID,
   ProductReview_0.Name,
@@ -638,6 +754,50 @@ CREATE VIEW localized_ProductService_Reviews AS SELECT
   ProductReview_0.Comment,
   ProductReview_0.Product_ID AS ToProduct_ID
 FROM localized_com_fabboo_materials_ProductReview AS ProductReview_0;
+
+CREATE VIEW ProductService_Products AS SELECT
+  Products_0.ID,
+  Products_0.Name AS ProductName,
+  Products_0.Description,
+  Products_0.ImageUrl,
+  Products_0.ReleaseDate,
+  Products_0.DiscontinuedDate,
+  Products_0.Price,
+  Products_0.Height,
+  Products_0.Width,
+  Products_0.Depth,
+  Products_0.Quantity,
+  Products_0.UnitOfMeasure_ID AS ToUnitOfMeasure_ID,
+  Products_0.Currency_ID AS ToCurrency_ID,
+  Products_0.Category_ID AS ToCategory_ID,
+  Category_1.Name AS Category,
+  Products_0.DimensionUnit_ID AS ToDimensionUnit_ID,
+  Products_0.Supplier_ID,
+  Products_0.Rating,
+  Products_0.StockAvailability
+FROM (com_fabboo_reports_Products AS Products_0 LEFT JOIN com_fabboo_materials_Categories AS Category_1 ON Products_0.Category_ID = Category_1.ID);
+
+CREATE VIEW localized_ProductService_Products AS SELECT
+  Products_0.ID,
+  Products_0.Name AS ProductName,
+  Products_0.Description,
+  Products_0.ImageUrl,
+  Products_0.ReleaseDate,
+  Products_0.DiscontinuedDate,
+  Products_0.Price,
+  Products_0.Height,
+  Products_0.Width,
+  Products_0.Depth,
+  Products_0.Quantity,
+  Products_0.UnitOfMeasure_ID AS ToUnitOfMeasure_ID,
+  Products_0.Currency_ID AS ToCurrency_ID,
+  Products_0.Category_ID AS ToCategory_ID,
+  Category_1.Name AS Category,
+  Products_0.DimensionUnit_ID AS ToDimensionUnit_ID,
+  Products_0.Supplier_ID,
+  Products_0.Rating,
+  Products_0.StockAvailability
+FROM (localized_com_fabboo_reports_Products AS Products_0 LEFT JOIN localized_com_fabboo_materials_Categories AS Category_1 ON Products_0.Category_ID = Category_1.ID);
 
 CREATE VIEW localized_de_com_fabboo_materials_Products AS SELECT
   L_0.ID,
@@ -827,56 +987,6 @@ CREATE VIEW localized_fr_com_fabboo_sales_Order AS SELECT
   L.Customer
 FROM com_fabboo_sales_Order AS L;
 
-CREATE VIEW localized_de_ProductService_Products AS SELECT
-  Products_0.ID,
-  Products_0.Name,
-  Products_0.Description,
-  Products_0.ImageUrl,
-  Products_0.ReleaseDate,
-  Products_0.DiscontinuedDate,
-  Products_0.Price,
-  Products_0.Height,
-  Products_0.Width,
-  Products_0.Depth,
-  Products_0.Quantity,
-  Products_0.Supplier_ID,
-  Products_0.UnitOfMeasure_ID,
-  Products_0.Currency_ID,
-  Products_0.DimensionUnit_ID,
-  Category_1.Name AS Category,
-  Products_0.PriceCondition,
-  Products_0.PriceDetermination,
-  Products_0.UnitOfMeasure_ID AS ToUnitOfMeasure_ID,
-  Products_0.Currency_ID AS ToCurrency_ID,
-  Products_0.Category_ID AS ToCategory_ID,
-  Products_0.DimensionUnit_ID AS ToDimensionUnit_ID
-FROM (localized_de_com_fabboo_materials_Products AS Products_0 LEFT JOIN localized_de_com_fabboo_materials_Categories AS Category_1 ON Products_0.Category_ID = Category_1.ID);
-
-CREATE VIEW localized_fr_ProductService_Products AS SELECT
-  Products_0.ID,
-  Products_0.Name,
-  Products_0.Description,
-  Products_0.ImageUrl,
-  Products_0.ReleaseDate,
-  Products_0.DiscontinuedDate,
-  Products_0.Price,
-  Products_0.Height,
-  Products_0.Width,
-  Products_0.Depth,
-  Products_0.Quantity,
-  Products_0.Supplier_ID,
-  Products_0.UnitOfMeasure_ID,
-  Products_0.Currency_ID,
-  Products_0.DimensionUnit_ID,
-  Category_1.Name AS Category,
-  Products_0.PriceCondition,
-  Products_0.PriceDetermination,
-  Products_0.UnitOfMeasure_ID AS ToUnitOfMeasure_ID,
-  Products_0.Currency_ID AS ToCurrency_ID,
-  Products_0.Category_ID AS ToCategory_ID,
-  Products_0.DimensionUnit_ID AS ToDimensionUnit_ID
-FROM (localized_fr_com_fabboo_materials_Products AS Products_0 LEFT JOIN localized_fr_com_fabboo_materials_Categories AS Category_1 ON Products_0.Category_ID = Category_1.ID);
-
 CREATE VIEW localized_de_ProductService_Supplier AS SELECT
   Suppliers_0.ID,
   Suppliers_0.Name,
@@ -962,6 +1072,90 @@ CREATE VIEW localized_fr_ProductService_VH_DimenionUnits AS SELECT
   DimensionUnit_0.ID AS Code,
   DimensionUnit_0.Description AS Text
 FROM localized_fr_com_fabboo_materials_DimensionUnit AS DimensionUnit_0;
+
+CREATE VIEW localized_de_MyService_SuppliersProduct AS SELECT
+  Products_0.ID,
+  Products_0.Name,
+  Products_0.Description,
+  Products_0.ImageUrl,
+  Products_0.ReleaseDate,
+  Products_0.DiscontinuedDate,
+  Products_0.Price,
+  Products_0.Height,
+  Products_0.Width,
+  Products_0.Depth,
+  Products_0.Quantity,
+  Products_0.Supplier_ID,
+  Products_0.UnitOfMeasure_ID,
+  Products_0.Currency_ID,
+  Products_0.DimensionUnit_ID,
+  Products_0.Category_ID,
+  Products_0.PriceCondition,
+  Products_0.PriceDetermination,
+  Supplier_1.Adress_Street,
+  Supplier_1.Adress_City,
+  Supplier_1.Adress_State,
+  Supplier_1.Adress_PostalCode,
+  Supplier_1.Adress_Country
+FROM (localized_de_com_fabboo_materials_Products AS Products_0 LEFT JOIN localized_de_com_fabboo_sales_Suppliers AS Supplier_1 ON Products_0.Supplier_ID = Supplier_1.ID)
+WHERE (Supplier_1.Adress_PostalCode = 98074) AND (Products_0.Name = 'Pink Lemonade');
+
+CREATE VIEW localized_fr_MyService_SuppliersProduct AS SELECT
+  Products_0.ID,
+  Products_0.Name,
+  Products_0.Description,
+  Products_0.ImageUrl,
+  Products_0.ReleaseDate,
+  Products_0.DiscontinuedDate,
+  Products_0.Price,
+  Products_0.Height,
+  Products_0.Width,
+  Products_0.Depth,
+  Products_0.Quantity,
+  Products_0.Supplier_ID,
+  Products_0.UnitOfMeasure_ID,
+  Products_0.Currency_ID,
+  Products_0.DimensionUnit_ID,
+  Products_0.Category_ID,
+  Products_0.PriceCondition,
+  Products_0.PriceDetermination,
+  Supplier_1.Adress_Street,
+  Supplier_1.Adress_City,
+  Supplier_1.Adress_State,
+  Supplier_1.Adress_PostalCode,
+  Supplier_1.Adress_Country
+FROM (localized_fr_com_fabboo_materials_Products AS Products_0 LEFT JOIN localized_fr_com_fabboo_sales_Suppliers AS Supplier_1 ON Products_0.Supplier_ID = Supplier_1.ID)
+WHERE (Supplier_1.Adress_PostalCode = 98074) AND (Products_0.Name = 'Pink Lemonade');
+
+CREATE VIEW localized_de_MyService_SuppliersToSales AS SELECT
+  Supplier_1.Email,
+  Category_2.Name,
+  Currency_4.ID,
+  Currency_4.Description
+FROM ((((localized_de_com_fabboo_materials_Products AS Products_0 LEFT JOIN localized_de_com_fabboo_sales_Suppliers AS Supplier_1 ON Products_0.Supplier_ID = Supplier_1.ID) LEFT JOIN localized_de_com_fabboo_materials_Categories AS Category_2 ON Products_0.Category_ID = Category_2.ID) LEFT JOIN localized_de_com_fabboo_sales_SalesData AS SalesData_3 ON (SalesData_3.Product_ID = Products_0.ID)) LEFT JOIN localized_de_com_fabboo_materials_Currencies AS Currency_4 ON SalesData_3.Currency_ID = Currency_4.ID);
+
+CREATE VIEW localized_fr_MyService_SuppliersToSales AS SELECT
+  Supplier_1.Email,
+  Category_2.Name,
+  Currency_4.ID,
+  Currency_4.Description
+FROM ((((localized_fr_com_fabboo_materials_Products AS Products_0 LEFT JOIN localized_fr_com_fabboo_sales_Suppliers AS Supplier_1 ON Products_0.Supplier_ID = Supplier_1.ID) LEFT JOIN localized_fr_com_fabboo_materials_Categories AS Category_2 ON Products_0.Category_ID = Category_2.ID) LEFT JOIN localized_fr_com_fabboo_sales_SalesData AS SalesData_3 ON (SalesData_3.Product_ID = Products_0.ID)) LEFT JOIN localized_fr_com_fabboo_materials_Currencies AS Currency_4 ON SalesData_3.Currency_ID = Currency_4.ID);
+
+CREATE VIEW localized_de_Reports_EntityExists AS SELECT
+  Products_0.Name
+FROM localized_de_com_fabboo_materials_Products AS Products_0
+WHERE EXISTS (SELECT
+    1 AS dummy
+  FROM localized_de_com_fabboo_sales_Suppliers AS _Supplier_exists_1
+  WHERE _Supplier_exists_1.ID = Products_0.Supplier_ID AND _Supplier_exists_1.Name = 'Exotic Liquids');
+
+CREATE VIEW localized_fr_Reports_EntityExists AS SELECT
+  Products_0.Name
+FROM localized_fr_com_fabboo_materials_Products AS Products_0
+WHERE EXISTS (SELECT
+    1 AS dummy
+  FROM localized_fr_com_fabboo_sales_Suppliers AS _Supplier_exists_1
+  WHERE _Supplier_exists_1.ID = Products_0.Supplier_ID AND _Supplier_exists_1.Name = 'Exotic Liquids');
 
 CREATE VIEW localized_de_com_fabboo_materials_SelProducts AS SELECT
   Products_0.ID,
@@ -1169,6 +1363,52 @@ FROM (localized_fr_com_fabboo_materials_Products AS Products_0 LEFT JOIN localiz
 GROUP BY ProductReview_1.Rating, Products_0.Name
 ORDER BY Rating;
 
+CREATE VIEW localized_de_com_fabboo_reports_Products AS SELECT
+  Products_0.ID,
+  Products_0.Name,
+  Products_0.Description,
+  Products_0.ImageUrl,
+  Products_0.ReleaseDate,
+  Products_0.DiscontinuedDate,
+  Products_0.Price,
+  Products_0.Height,
+  Products_0.Width,
+  Products_0.Depth,
+  Products_0.Quantity,
+  Products_0.Supplier_ID,
+  Products_0.UnitOfMeasure_ID,
+  Products_0.Currency_ID,
+  Products_0.DimensionUnit_ID,
+  Products_0.Category_ID,
+  Products_0.PriceCondition,
+  Products_0.PriceDetermination,
+  ToAverageRating_1.AverageRating AS Rating,
+  CASE WHEN Products_0.Quantity >= 8 THEN 3 WHEN Products_0.Quantity > 0 THEN 2 ELSE 1 END AS StockAvailability
+FROM (localized_de_com_fabboo_materials_Products AS Products_0 LEFT JOIN com_fabboo_reports_AverageRating AS ToAverageRating_1 ON ToAverageRating_1.ProductId = Products_0.ID);
+
+CREATE VIEW localized_fr_com_fabboo_reports_Products AS SELECT
+  Products_0.ID,
+  Products_0.Name,
+  Products_0.Description,
+  Products_0.ImageUrl,
+  Products_0.ReleaseDate,
+  Products_0.DiscontinuedDate,
+  Products_0.Price,
+  Products_0.Height,
+  Products_0.Width,
+  Products_0.Depth,
+  Products_0.Quantity,
+  Products_0.Supplier_ID,
+  Products_0.UnitOfMeasure_ID,
+  Products_0.Currency_ID,
+  Products_0.DimensionUnit_ID,
+  Products_0.Category_ID,
+  Products_0.PriceCondition,
+  Products_0.PriceDetermination,
+  ToAverageRating_1.AverageRating AS Rating,
+  CASE WHEN Products_0.Quantity >= 8 THEN 3 WHEN Products_0.Quantity > 0 THEN 2 ELSE 1 END AS StockAvailability
+FROM (localized_fr_com_fabboo_materials_Products AS Products_0 LEFT JOIN com_fabboo_reports_AverageRating AS ToAverageRating_1 ON ToAverageRating_1.ProductId = Products_0.ID);
+
 CREATE VIEW localized_de_ProductService_Reviews AS SELECT
   ProductReview_0.ID,
   ProductReview_0.Name,
@@ -1184,4 +1424,48 @@ CREATE VIEW localized_fr_ProductService_Reviews AS SELECT
   ProductReview_0.Comment,
   ProductReview_0.Product_ID AS ToProduct_ID
 FROM localized_fr_com_fabboo_materials_ProductReview AS ProductReview_0;
+
+CREATE VIEW localized_de_ProductService_Products AS SELECT
+  Products_0.ID,
+  Products_0.Name AS ProductName,
+  Products_0.Description,
+  Products_0.ImageUrl,
+  Products_0.ReleaseDate,
+  Products_0.DiscontinuedDate,
+  Products_0.Price,
+  Products_0.Height,
+  Products_0.Width,
+  Products_0.Depth,
+  Products_0.Quantity,
+  Products_0.UnitOfMeasure_ID AS ToUnitOfMeasure_ID,
+  Products_0.Currency_ID AS ToCurrency_ID,
+  Products_0.Category_ID AS ToCategory_ID,
+  Category_1.Name AS Category,
+  Products_0.DimensionUnit_ID AS ToDimensionUnit_ID,
+  Products_0.Supplier_ID,
+  Products_0.Rating,
+  Products_0.StockAvailability
+FROM (localized_de_com_fabboo_reports_Products AS Products_0 LEFT JOIN localized_de_com_fabboo_materials_Categories AS Category_1 ON Products_0.Category_ID = Category_1.ID);
+
+CREATE VIEW localized_fr_ProductService_Products AS SELECT
+  Products_0.ID,
+  Products_0.Name AS ProductName,
+  Products_0.Description,
+  Products_0.ImageUrl,
+  Products_0.ReleaseDate,
+  Products_0.DiscontinuedDate,
+  Products_0.Price,
+  Products_0.Height,
+  Products_0.Width,
+  Products_0.Depth,
+  Products_0.Quantity,
+  Products_0.UnitOfMeasure_ID AS ToUnitOfMeasure_ID,
+  Products_0.Currency_ID AS ToCurrency_ID,
+  Products_0.Category_ID AS ToCategory_ID,
+  Category_1.Name AS Category,
+  Products_0.DimensionUnit_ID AS ToDimensionUnit_ID,
+  Products_0.Supplier_ID,
+  Products_0.Rating,
+  Products_0.StockAvailability
+FROM (localized_fr_com_fabboo_reports_Products AS Products_0 LEFT JOIN localized_fr_com_fabboo_materials_Categories AS Category_1 ON Products_0.Category_ID = Category_1.ID);
 
