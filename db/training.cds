@@ -1,5 +1,7 @@
 namespace com.training;
 
+using {Country} from '@sap/cds/common';
+
 entity Course {
     key ID            : UUID;
         StudentCourse : Association to many StudentCourse
@@ -72,5 +74,7 @@ entity Orders {
         LastName    : String(30);
         CreatedOn   : Date;
         Reviewed    : Boolean;
-        Approved    : Boolean
+        Approved    : Boolean;
+        Country     : Country;
+        Status      : String(1);
 }
