@@ -1,6 +1,26 @@
 # Change Log
 SAP CAP course project - Cloud Application Programming Model by Logali Group
 
+## [1.3.0] - 2023-09-22
+
+### Added
+  Servicios Externos
+    -> Importar Servicio Externo en CAP
+    -> Exponer Servicio Externo
+    -> CAP Server Bootstrap
+    -> CORS
+    -> Service Implementation
+    -> Enhancement
+    -> OData Adapter Proxy
+    -> DOTENV
+    -> Protocolo REST
+    -> GraphQL
+    -> Swagger
+
+### Changed
+### Fixed
+
+
 ## [1.2.0] - 2023-09-22
  
 ### Added
