@@ -50,3 +50,6 @@ Content-Type: application/json
 {
     "clientEmail": "client2@client2.com"
 }
+
+### GET Incidents
+GET http://localhost:4004/sapbackend-exit/Incidents

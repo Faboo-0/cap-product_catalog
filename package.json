@@ -6,13 +6,37 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
+    "@graphql-tools/schema": "^10.0.0",
+    "@sap-cloud-sdk/http-client": "^3.5.0",
     "@sap/cds": "^6",
-    "express": "^4"
+    "@sap/cds-odata-v2-adapter-proxy": "^1.9.21",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4",
+    "express-graphql": "^0.12.0",
+    "graphql": "^14.7.0"
   },
   "devDependencies": {
+    "cds-swagger-ui-express": "^0.6.0",
     "sqlite3": "^5"
   },
   "scripts": {
     "start": "cds-serve"
+  },
+  "cds": {
+    "features": {
+      "graphql": true
+    },
+    "requires": {
+      "sapbackend": {
+        "kind": "odata-v2",
+        "model": "srv/external/sapbackend",
+        "credentials": {
+          "requestTimeout": 30000,
+          "url": "http://erp13.sap4practice.com:9037/sap/opu/odata/sap/YSAPUI5_SRV_01",
+          "Authentication": "NoAuthentication"
+        }
+      }
+    }
   }
 }
