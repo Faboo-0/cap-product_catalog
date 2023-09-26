@@ -1,6 +1,29 @@
 # Change Log
 SAP CAP course project - Cloud Application Programming Model by Logali Group
 
+## [1.4.0] - 2023-09-25
+
+### Added
+  Fiori Elements - UI
+    -> Aplicación Fiori Elements
+    -> Campo de selección
+    -> Ayudas de búsqueda
+    -> Line Item
+    -> Imágenes
+    -> Criticidad
+    -> Communication Contact
+    -> Field Group
+    -> Header Info
+    -> Data Point
+    -> Facets
+    -> Header Facets
+    -> Capabilities
+    -> Internacionalización
+
+### Changed
+### Fixed
+
+
 ## [1.3.0] - 2023-09-22
 
 ### Added
