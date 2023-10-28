@@ -1,4 +1,4 @@
-# CAP product_catalog
+# CAP cap_product
 _out
 *.db
 *.sqlite
@@ -30,4 +30,5 @@ mta_archives/
 # .vscode
 # .idea
 
-.env
+# auto generated wildcard
+db/.env
